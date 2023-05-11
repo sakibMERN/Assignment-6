@@ -12,7 +12,7 @@ app.use(express.static(__dirname));
     app.get("/",(req,res)=>{
 
         res.sendFile(__dirname +"./index.html");
-    })
+    });
 
     let books=[];
 
@@ -28,17 +28,30 @@ app.use(express.static(__dirname));
 
         const id = Math.floor(Math.random() * 100000);
             
-        const data = {id, title, author, publishedDate};
+        let data = {id, title, author, publishedDate};
 
-        books.push(data)
+        books.push(data);
 
-        res.send(data)
+        res.send(data);
     
     });
 
+    app.delete("/books/:id",(req,res)=>{
 
+        let id= parseInt(req.params.id);
 
+        const bookIndex = books.findIndex((books) => book.id === id);
+        if(bookIndex=== -1){
 
+            res.status(404).send("Book not found");
+        }
+        else{
+            books.splice(bookIndex, 1);
+            req.send("Book delete successful");
+        }
+    });
+
+    
 
 app.listen(3000,()=>{
     console.log("Server Run Success");
